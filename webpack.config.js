@@ -1,14 +1,18 @@
+// 配置目录
+// 因为我们的webpack.config.js文件不在项目根目录下，所以需要一个路径的配置
 const path=require('path')
+//html-webpack-plugin可以根据你设置的模板，在每次运行后生成对应的模板文件，同时所依赖的CSS/JS也都会被引入，如果CSS/JS中含有hash值，则html-webpack-plugin生成的模板文件也会引入正确版本的CSS/JS文件。
 const HTMLPlugin=require('html-webpack-plugin')
 const webpack=require('webpack')
 const Extractplugin=require('extract-text-webpack-plugin')  //分离css和js
-
+//指定开发环境还是生产环境
 const isDev=process.env.NODE_ENV ==='development'
 
 const config={
     /*webpack的编译平台是web平台*/
     target:'web',
     //唯一入口文件，指定入口文件后，wepack将自动识别项目所依赖的其他文件
+    //__dirname 项目根目录
     entry:path.join(__dirname,'src/index.js'),
     //出口
     //__dirname 是nodejs中的一个全局变量，他指向当前执行脚本所在的目录。
@@ -70,7 +74,9 @@ const config={
                 NODE_ENV:isDev ? '"development"':'"production"'
             }
         }),
-        new HTMLPlugin()
+        new HTMLPlugin({
+            title: "This is the result",
+        })
     ]
 }
 
@@ -141,8 +147,9 @@ if(isDev){
     )
     config.plugins.push(
         new Extractplugin('styles.[contentHash:8].css'),
+        /*CommonsChunkPlugin：自动提取公共js,css*/
         new webpack.optimize.CommonsChunkPlugin({
-            name:'verdor'
+            name:'verdor'  /*配置公共代码的名字*/
         }),
         new webpack.optimize.CommonsChunkPlugin({
             name:'runtime'

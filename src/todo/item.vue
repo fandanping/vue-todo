@@ -20,7 +20,7 @@
         },
         methods: {
             deleteTodo() {
-                this.$emit('del', this.todo.id)
+                this.$emit('del', this.todo.id)  /*触发当前实例上的事件，附加参数都会传给监听器回调*/
             }
         }
     }

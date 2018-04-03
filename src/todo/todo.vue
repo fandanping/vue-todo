@@ -48,7 +48,7 @@
         },
         methods: {
             addTodo(e) {
-                this.todos.unshift({
+                this.todos.unshift({ /* unshift() 在数组前端添加任意个项并返回新数组长度*/
                     id: id++,
                     content: e.target.value.trim(),
                     completed: false
